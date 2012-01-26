@@ -1,7 +1,9 @@
 #coding=utf8
-import urllib2,urllib,json,wx
+import urllib2,urllib,json,wx,sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
-class TextCtrlFrame(wx.Frame):
+class Gui(wx.Frame):
     
     def __init__(self):
         wx.Frame.__init__(self,None,-1,u'字典',size=(300,450))
@@ -37,7 +39,8 @@ class TextCtrlFrame(wx.Frame):
         
     def search(self,content):
         self.inputText2.Clear()
-        url="http://fanyi.youdao.com/fanyiapi.do"
+        #print content
+        url="http://fanyi.youdao.com/openapi.do"
         parameter=[("keyfrom","myWebsite"),("key","423366321"),("type","data"),("doctype","json"),("version","1.1"),("q",content)]
         try:
             getUrl=url+'?'+urllib.urlencode(parameter)
@@ -69,6 +72,6 @@ class TextCtrlFrame(wx.Frame):
     
 if __name__=='__main__':
     app=wx.PySimpleApp()
-    frame=TextCtrlFrame()
+    frame=Gui()
     frame.Show()
     app.MainLoop()
