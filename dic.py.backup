@@ -23,9 +23,6 @@ class Gui(wx.Frame):
     
     def OnClick(self,event):
         word=self.inputText1.GetValue()
-        #print word
-        recite_word=open("word_to_recite.txt","a")
-        recite_word.write(word+"\n")
         #wx.MessageBox(word)
         result=self.search(word)
         if result==0:
@@ -38,8 +35,7 @@ class Gui(wx.Frame):
         elif result==2:
             self.inputText2.Value="有错误发生，请检查网络连接"
             print "有错误发生，请检查网络连接"
-        elif result==3:
-            print "result == 3"
+       
         
     def search(self,content):
         self.inputText2.Clear()
@@ -49,48 +45,29 @@ class Gui(wx.Frame):
         try:
             getUrl=url+'?'+urllib.urlencode(parameter)
             req=urllib2.Request(getUrl)
-            print getUrl
             answer=urllib2.urlopen(req).read()
-            print answer
             locations=json.loads(answer)
-            errorCode=locations["errorCode"]
-            if errorCode!=0:
-                return errorCode
-            translation=locations["translation"]
-            print translation 
+            basic=locations["basic"]
+            explain=basic["explains"]
+            web=locations["web"]  #this is the web part
         except KeyError:
-            return 3
+            return 0
         except ValueError:
             return 1
         except:
             return 2
         else:
-            print "into else " 
             self.inputText2.AppendText(u"翻译为："+"\n")
-            for i in translation:
-                self.inputText2.AppendText("   "+i+"\n")
-        try:    
-            basic=locations["basic"]
-            explain=basic["explains"]
-            web=locations["web"]  #this is the web part
-        except KeyError:
-            return 3
-        except ValueError:
-            return 1
-        except:
-            return 2
-        else:    
-            self.inputText2.AppendText(u"解释为："+"\n")
             for i in explain:
                 self.inputText2.AppendText("   "+i+"\n")
             
             self.inputText2.AppendText("\n"+"网络释义"+"\n")
-            ''' for i in web:
+            for i in web:
                 self.inputText2.AppendText(i["key"]+"      ") 
                 for j in i["value"]:
                     self.inputText2.AppendText(j+"  ")
-            '''   
-            self.inputText2.AppendText("\n\n")
+                
+                self.inputText2.AppendText("\n\n")
                
     
 if __name__=='__main__':
