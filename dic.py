@@ -6,7 +6,7 @@ sys.setdefaultencoding('utf-8')
 class Gui(wx.Frame):
     
     def __init__(self):
-        wx.Frame.__init__(self,None,-1,u'字典',size=(300,450))
+        wx.Frame.__init__(self,None,-1,u'词典',size=(300,450))
         #panel=wx.Panel(self,-1)
         sizer=wx.BoxSizer(orient=wx.VERTICAL)
         sizer1=wx.BoxSizer(orient=wx.HORIZONTAL)
